@@ -1,0 +1,23 @@
+# Note: Existing Autotile IDs are not saved in this file... Keep in mind.
+
+# Tiles IDs (2):
+1. 27 (Name: 27_sand)
+2. 28 (Name: 28_green_grass)
+
+# Objects IDs (10):
+1. 2421 (Name: 2421_stones21)
+2. 3510 (Name: 3510_barrel_storage9)
+3. 3514 (Name: 3514_bag_storage3)
+4. 3516 (Name: 3516_bag_storage5)
+5. 3800 (Name: 3800_tree_green)
+6. 3804 (Name: 3804_tree_green5)
+7. 4003 (Name: 4003_village_house4)
+8. 4006 (Name: 4006_village_house7)
+9. 4007 (Name: 4007_village_house8)
+10. 4008 (Name: 4008_village_house9)
+
+# NPCs IDs (4):
+1. 2516 (Name: 2516_villager17)
+2. 2519 (Name: 2519_villager20)
+3. 2539 (Name: 2539_villager40)
+4. 2546 (Name: 2546_villager47)

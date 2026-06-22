@@ -1,0 +1,13 @@
+package core;
+
+public enum ItemType {
+	TILE,
+	OBJECT,
+	NPC,
+	
+	ERASE_MODE,
+	NPC_WALK_AREA_MODE,
+	BRUSH_TOOL,
+	CHUNK_SELECTION_TOOL,
+	NONE
+}
