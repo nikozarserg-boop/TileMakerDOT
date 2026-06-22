@@ -197,8 +197,9 @@ TileMaker DOT features a **Live-Sync Settings System**. While you can manually e
 
 ## 📂 Application Structure
 
-The application requires a strict file structure to function correctly:
+The application requires a strict file structure to function correctly:[cite: 1]
 
+```text
 TileMaker DOT/
 ├── assets/
 │   ├── tiles/
@@ -228,6 +229,7 @@ TileMaker DOT/
 ├── TileMakerLauncher.exe                (Windows Launcher)
 ├── TileMakerDOT_macOS_Launcher.command  (macOS Launcher)
 └── TileMakerDOT_Linux_Launcher.sh       (Linux Launcher)
+```
 
 ***
 
