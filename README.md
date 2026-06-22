@@ -233,6 +233,29 @@ TileMaker DOT/
 
 ***
 
+Markdown
+## 💻 Building from Source
+
+If you want to modify the code or contribute to TileMaker DOT, follow these steps to set up the workspace.
+
+### Prerequisites
+* **Java Development Kit (JDK):** Version 16 or higher.
+* **IDE:** Eclipse (my personal choice), IntelliJ IDEA, or VS Code.
+
+### IDE Setup (Manual Dependency Management)
+This project manages dependencies manually rather than using a build tool like Maven or Gradle. You must link the required UI library to your build path.
+
+**Eclipse Instructions:**
+1. Clone the repository to your local machine
+2. Open Eclipse and navigate to `File` > `Open Projects from File System` > `Directory`
+3. Select the cloned repository folder
+4. Add the FlatLaf UI library to your classpath:
+   * Right-click the project in the Package Explorer > `Build Path` > `Configure Build Path...`
+   * Go to the **Libraries** tab.
+   * Select **Classpath** > **Add JARs...** 
+   * Navigate to the project's `lib/` folder and select `flatlaf-3.5.4.jar`.
+5. Run the main class to launch the editor.
+
 ## 📺 Learning Resources
 
 If you prefer visual learning, check out the official TileMaker DOT tutorial series on YouTube. These videos cover everything from basic placement to advanced autotiling and export workflows.
