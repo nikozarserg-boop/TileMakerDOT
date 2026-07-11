@@ -263,8 +263,8 @@ This project uses Gradle to automatically handle compilation tasks and source de
 
 You can run compilation and distribution tasks directly from your terminal inside the root directory using the Gradle Wrapper:
 
-**Compile and build the standalone JAR:
-In Bash: `./gradlew clean jar`
+**Compile and build the standalone JAR:**
+Terminal: `./gradlew clean jar`
 (The optimized executable JAR will be generated inside the `build/libs/` folder.)
 
 ***
