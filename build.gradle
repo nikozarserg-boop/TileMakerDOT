@@ -49,10 +49,10 @@ jar {
         )
     }
     
-    // 1. Pack your compiled map editor class files into the JAR
+    // Pack compiled map editor class files into the JAR
     from sourceSets.main.output
     
-    // 2. Unpack the automatically downloaded FlatLaf library and bundle it inside
+    // Unpack the automatically downloaded FlatLaf library and bundle it inside
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
@@ -80,9 +80,8 @@ def getAppIconPath() {
     return ""
 }
 
-// Build native application via jpackage (JDK 16+).
-// Builds only for the OS this command runs on.
-// For multi-platform builds, use GitHub Actions CI (see .github/workflows/build.yml).
+// Build native application via jpackage (JDK 16+)
+// Builds only for the OS this command runs on
 
 tasks.register('jpackageNative', Exec) {
     dependsOn jar
