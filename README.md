@@ -267,7 +267,7 @@ You can run compilation and distribution tasks directly from your terminal insid
   ```bash
   gradlew clean jar
   ```
-(The optimized executable JAR will be generated inside the `build/libs/` folder.)
+(The optimized executable JAR will be generated inside the `build/libs/` folder)
 
 ***
 
