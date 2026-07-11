@@ -13,8 +13,9 @@ group = 'com.andrei-voia'
 version = versionProps.getProperty('version', '1.0.0')
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(16)
+    }
 }
 
 application {
@@ -35,7 +36,8 @@ sourceSets {
             srcDirs = ['src']
         }
         resources {
-            srcDirs = ['assets']
+            srcDirs = ['src']
+            exclude '**/assets/**'
         }
     }
 }
@@ -43,12 +45,21 @@ sourceSets {
 jar {
     manifest {
         attributes(
-            'Main-Class': 'main.TileEditor',
-            'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' ')
+            'Main-Class': 'main.TileEditor'
         )
     }
+    
+    // 1. Pack your compiled map editor class files into the JAR
+    from sourceSets.main.output
+    
+    // 2. Unpack the automatically downloaded FlatLaf library and bundle it inside
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    // Prevents errors if duplicate configuration files exist in dependencies
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-
 
 task runApp(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
@@ -200,25 +211,4 @@ tasks.register('jpackageMacOS', Exec) {
         '--type', 'dmg',
         '--icon', iconPath,
         '--verbose'
-}
-
-// jar with all dependencies bundled inside
-task fatJar(type: Jar) {
-    archiveBaseName = "${rootProject.name}-all"
-    archiveVersion = version
-
-    manifest {
-        attributes(
-            'Main-Class': 'main.TileEditor'
-        )
-    }
-
-    from sourceSets.main.output
-
-    dependsOn configurations.runtimeClasspath
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

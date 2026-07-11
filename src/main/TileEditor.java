@@ -267,7 +267,7 @@ public class TileEditor {
         
         frame.setLayout(new BorderLayout());
         frame.add(splitPane, BorderLayout.CENTER);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setSize(1300, 800);
         
         //show the frame
         frame.setVisible(true);

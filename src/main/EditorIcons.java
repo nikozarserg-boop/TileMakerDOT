@@ -2,12 +2,14 @@ package main;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import utils.ImageUtils;
+import utils.Utils;
 
 public class EditorIcons {
 	
@@ -26,12 +28,19 @@ public class EditorIcons {
     //icon loading section
     private void initializeIcons(int tileSize, int defaultSelectedTile) {
         try {
-            //load icons from classpath
-            iconImage = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/tile_editor_icon.png"));
-            BufferedImage eraserImage = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/eraser_icon.png"));
-            deleteImage = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/delete_icon.png"));
-            objectPickerImage = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/object_picker.png"));
-            notFoundIcon = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/not_found.png"));
+            //construct the path to the icon file
+            File iconFile = new File(Utils.DEFAULT_BASE_PATH, "/icons/tile_editor_icon.png"); 
+            
+            //load the image
+            iconImage = ImageIO.read(iconFile);
+            
+            //load the eraser icon
+            File eraserFile = new File(Utils.DEFAULT_BASE_PATH, "/icons/eraser_icon.png");
+            BufferedImage eraserImage = ImageIO.read(eraserFile);
+            
+            deleteImage = ImageIO.read(new File(Utils.DEFAULT_BASE_PATH, "/icons/delete_icon.png"));
+            objectPickerImage = ImageIO.read(new File(Utils.DEFAULT_BASE_PATH, "/icons/object_picker.png"));
+            notFoundIcon = ImageIO.read(new File(Utils.DEFAULT_BASE_PATH, "/icons/not_found.png"));
             notFoundIcon = ImageUtils.resizeImage(notFoundIcon, tileSize, tileSize);
             
             //scale it to the desired preview size
@@ -39,8 +48,8 @@ public class EditorIcons {
             this.eraserIcon = new ImageIcon(scaledEraser);
             
             //load the entire note icon
-            BufferedImage noteImage = ImageIO.read(EditorIcons.class.getResourceAsStream("/icons/note_icon.png"));
-            this.noteIcon = new ImageIcon(noteImage.getScaledInstance(defaultSelectedTile, defaultSelectedTile, Image.SCALE_SMOOTH));
+            this.noteIcon = new ImageIcon(ImageIO.read(new File(Utils.DEFAULT_BASE_PATH, "/icons/note_icon.png"))
+            		.getScaledInstance(defaultSelectedTile, defaultSelectedTile, Image.SCALE_SMOOTH));
             
         } catch (IOException e) {
             System.err.println("Could not load application icon: " + e.getMessage());

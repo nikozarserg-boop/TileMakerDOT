@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import utils.ImageUtils;
 import utils.OSDetector;
 
 public class EditorWindow {
@@ -128,7 +127,6 @@ public class EditorWindow {
             JOptionPane.OK_CANCEL_OPTION
         );
         JDialog dialog = optionPane.createDialog(null, "Map Dimensions and Settings");
-        dialog.setIconImage(ImageUtils.loadIconImage());
         dialog.setVisible(true);
 
         int result = (optionPane.getValue() instanceof Integer) ? (int) optionPane.getValue() : JOptionPane.CLOSED_OPTION;

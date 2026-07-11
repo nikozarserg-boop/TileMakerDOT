@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -260,22 +259,18 @@ public final class Utils {
     //reads the asset path from default_assets_path.txt located in the project root 
     //falling back to "assets" if the file does not exist or is empty
     public static String loadInitialDefaultValues(String fileName) {
+        File file = new File("assets/settings/" + fileName);
         String defaultPath = "assets";
         
-        try (InputStream is = Utils.class.getResourceAsStream("/settings/" + fileName)) {
-            if (is == null) {
-                System.out.println(fileName + " not found in classpath. Using default path: " + defaultPath);
-                return defaultPath;
-            }
-            try (Scanner scanner = new Scanner(is)) {
-                if (scanner.hasNextLine()) {
-                    String path = scanner.nextLine().trim();
-                    if (!path.isEmpty()) {
-                        return path;
-                    }
+        try (Scanner scanner = new Scanner(file)) {
+            if (scanner.hasNextLine()) {
+                String path = scanner.nextLine().trim();
+                if (!path.isEmpty()) {
+                    return path;
                 }
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            //this is expected if the file has not been created yet
             System.out.println(fileName + " not found. Using default path: " + defaultPath);
         }
         
@@ -284,25 +279,17 @@ public final class Utils {
     
     public static List<String> loadDefaultGridSizes() {
         List<String> sizes = new ArrayList<>();
-        
-        try (InputStream is = Utils.class.getResourceAsStream("/settings/default_grids.txt")) {
-            if (is == null) {
-                System.err.println("Could not load default grid sizes. Using hardcoded defaults.");
-                sizes.add("50x50");
-                sizes.add("100x100");
-                sizes.add("200x150");
-                return sizes;
-            }
-            try (Scanner scanner = new Scanner(is)) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine().trim();
-                    if (line.matches("\\d+x\\d+")) {
-                        sizes.add(line);
-                    }
+        File file = new File("assets/settings/default_grids.txt");
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.matches("\\d+x\\d+")) {
+                    sizes.add(line);
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Could not load default grid sizes. Using hardcoded defaults.");
+        } catch (IOException e) {
+            System.err.println("Could not load default grid sizes from " + file.getPath() + ". Using hardcoded defaults.");
             sizes.add("50x50");
             sizes.add("100x100");
             sizes.add("200x150");
