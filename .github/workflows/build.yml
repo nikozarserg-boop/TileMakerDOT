@@ -92,11 +92,10 @@ jobs:
         if: matrix.name == 'Linux'
         run: tar -czf build/jpackage/TileMakerDOT-Linux-x64.tar.gz -C build/jpackage TileMakerDOT
 
-      # macOS step: No zipping needed anymore, just rename or verify the DMG
-      - name: Prepare macOS DMG Installer
+      # Compress macOS build safely preserving all symlinks and permissions
+      - name: Archive macOS Portable Bundle
         if: matrix.name == 'macOS'
-        run: |
-          mv build/jpackage/TileMakerDOT-*.dmg build/jpackage/TileMakerDOT-macOS-x64.dmg || true
+        run: tar -czf build/jpackage/TileMakerDOT-macOS-x64.tar.gz -C build/jpackage TileMakerDOT.app
 
       # Upload the packed archive to the workflow workspace
       - name: Upload Native Portable Archive
@@ -106,7 +105,6 @@ jobs:
           path: |
             build/jpackage/*.zip
             build/jpackage/*.tar.gz
-            build/jpackage/*.dmg
 
       - name: Final cleanup to prevent job cancellation
         if: always()
