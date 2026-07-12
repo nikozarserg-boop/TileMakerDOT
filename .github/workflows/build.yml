@@ -52,11 +52,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      - name: Download and Extract Portable JDK 16
+        run: |
+          if [ "${{ matrix.name }}" = "Windows" ]; then
+            curl -L -o jdk16.zip "https://github.com/adoptium/temurin16-binaries/releases/download/jdk-16.0.2+7/OpenJDK16U-jdk_x64_windows_hotspot_16.0.2_7.zip"
+            unzip -q jdk16.zip
+            mv jdk-16.0.2* $GITHUB_WORKSPACE/jdk16
+          elif [ "${{ matrix.name }}" = "macOS" ]; then
+            curl -L -o jdk16.tar.gz "https://github.com/adoptium/temurin16-binaries/releases/download/jdk-16.0.2+7/OpenJDK16U-jdk_x64_mac_hotspot_16.0.2_7.tar.gz"
+            tar -xzf jdk16.tar.gz
+            mv jdk-16.0.2*/Contents/Home $GITHUB_WORKSPACE/jdk16
+          else
+            curl -L -o jdk16.tar.gz "https://github.com/adoptium/temurin16-binaries/releases/download/jdk-16.0.2+7/OpenJDK16U-jdk_x64_linux_hotspot_16.0.2_7.tar.gz"
+            tar -xzf jdk16.tar.gz
+            mv jdk-16.0.2* $GITHUB_WORKSPACE/jdk16
+          fi
+          echo "JAVA_HOME=$GITHUB_WORKSPACE/jdk16" >> $GITHUB_ENV
+          echo "$GITHUB_WORKSPACE/jdk16/bin" >> $GITHUB_PATH
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
