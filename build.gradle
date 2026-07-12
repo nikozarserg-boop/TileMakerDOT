@@ -117,7 +117,7 @@ tasks.register('jpackageNative', Exec) {
         '--icon', iconPath,
         '--verbose'
         
-    doLast {
+	doLast {
         def os = System.getProperty("os.name").toLowerCase(Locale.ROOT)
         
         if (os.contains("mac")) {
@@ -127,8 +127,15 @@ tasks.register('jpackageNative', Exec) {
                 into "${outputDir.absolutePath}/${appName}.app/Contents/MacOS/assets"
             }
             println "Portable macOS app bundle generated at: ${outputDir.absolutePath}/${appName}.app"
+        } else if (os.contains("linux")) {
+            // Linux structure: Executable launcher sits inside the bin/ directory
+            copy {
+                from "assets"
+                into "${outputDir.absolutePath}/${appName}/bin/assets"
+            }
+            println "Portable Linux release folder generated at: ${outputDir.absolutePath}/${appName}"
         } else {
-            // Windows and Linux structure: assets sit flat next to the main binary launcher
+            // Windows structure: assets sit flat next to the main binary launcher
             copy {
                 from "assets"
                 into "${outputDir.absolutePath}/${appName}/assets"
