@@ -147,9 +147,26 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
     }
     
     private Map<String, List<Tile>> loadTilesByCategory(String relativePath) {
+    	
+        
+        //VISUAL POP-UP
+        javax.swing.JOptionPane.showMessageDialog(null, 
+            "RELATIVE PATH: " + relativePath, 
+            "Asset Diagnostic", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
+    	
         Map<String, List<Tile>> categorized = new LinkedHashMap<>();
         File baseFolder = new File(tileEditor.getLoadedSetup().getResourceBasePath(), relativePath);
         File[] subfolders = baseFolder.listFiles(File::isDirectory);
+        
+        
+        //VISUAL POP-UP
+        javax.swing.JOptionPane.showMessageDialog(null, 
+            "SUBFOLDER " + subfolders.length, 
+            "Asset Diagnostic", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
 
         if (subfolders == null || subfolders.length == 0) {
             return categorized;
