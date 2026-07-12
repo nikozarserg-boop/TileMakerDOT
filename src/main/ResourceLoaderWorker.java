@@ -180,7 +180,11 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
                                 badAutotiles.add(relativePath + "/" + category + "/" + fileName + ImageUtils.PNG_FORMAT);
                                 continue;
                             }
-                            String path = tileEditor.getLoadedSetup().getResourceBasePath() + File.separator + relativePath + File.separator + category + File.separator + fileName + ImageUtils.PNG_FORMAT;
+                            String path = tileEditor.getLoadedSetup().getResourceBasePath() + "/" + relativePath + "/" + category + "/" + fileName + ImageUtils.PNG_FORMAT;
+                            //sanitize the path
+                            path = path.replace("\\", "/");
+                            
+                            System.out.println("DEBUG: Trying to load asset from path: " + path);
                             
                             autotiles.add(new Autotile(extractedIds.get(0), extractedIds.get(1), 
                             		extractedIds.get(2), file.getName(), image, path));
@@ -215,7 +219,11 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
                     List<BufferedImage> frames = animationGroups.get(baseName);
                     int id = groupIds.getOrDefault(baseName, -1);
                     
-                    String path = tileEditor.getLoadedSetup().getResourceBasePath() + File.separator + relativePath + File.separator + category + File.separator + baseName + ImageUtils.PNG_FORMAT;
+                    String path = tileEditor.getLoadedSetup().getResourceBasePath() + "/" + relativePath + "/" + category + "/" + baseName + ImageUtils.PNG_FORMAT;
+                    //sanitize the path
+                    path = path.replace("\\", "/");
+                    
+                    System.out.println("DEBUG: Trying to load asset from path: " + path);
                     
                     if (frames.size() > 1) {
                         //create the new animated tile class
