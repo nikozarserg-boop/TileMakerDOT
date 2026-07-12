@@ -27,9 +27,9 @@ public final class Utils {
 	
     public static final String DEFAULT_BASE_PATH = "assets";
     
-    public static final String TILES_NAME = "Tiles";
-    public static final String OBJECTS_NAME = "Objects";
-    public static final String NPCS_NAME = "NPCs";
+    public static final String TILES_NAME = "tiles";
+    public static final String OBJECTS_NAME = "objects";
+    public static final String NPCS_NAME = "npcs";
     
 	public static final String CSV_FILE_EXTENSION = ".csv";
 	public static final String JSON_FILE_EXTENSION = ".json";

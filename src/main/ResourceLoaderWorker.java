@@ -53,15 +53,7 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
 
     //this method runs on a separate background thread
     @Override
-	protected Void doInBackground() throws Exception {
-    	
-        
-        //VISUAL POP-UP
-        javax.swing.JOptionPane.showMessageDialog(null, 
-            "STARTING DO IN BACKHGROUND ResourceLoaderWorker", 
-            "Asset Diagnostic", 
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-    	
+    protected Void doInBackground() throws Exception {
         //load resources
         tileCategories = loadTilesByCategory(Utils.TILES_NAME);
         objectCategories = loadTilesByCategory(Utils.OBJECTS_NAME);
@@ -99,7 +91,6 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
         if (!texturesWithoutIds.isEmpty()) {
             StringBuilder report = new StringBuilder("The following " + texturesWithoutIds.size() + 
             		" textures were skipped because they lack an ID:\n\n");
-            
             
             final int howManyShow = 20;
             int count = 0;
@@ -147,26 +138,9 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
     }
     
     private Map<String, List<Tile>> loadTilesByCategory(String relativePath) {
-    	
-        
-        //VISUAL POP-UP
-        javax.swing.JOptionPane.showMessageDialog(null, 
-            "RELATIVE PATH: " + relativePath, 
-            "Asset Diagnostic", 
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        
-    	
         Map<String, List<Tile>> categorized = new LinkedHashMap<>();
         File baseFolder = new File(tileEditor.getLoadedSetup().getResourceBasePath(), relativePath);
         File[] subfolders = baseFolder.listFiles(File::isDirectory);
-        
-        
-        //VISUAL POP-UP
-        javax.swing.JOptionPane.showMessageDialog(null, 
-            "SUBFOLDER " + subfolders.length, 
-            "Asset Diagnostic", 
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        
 
         if (subfolders == null || subfolders.length == 0) {
             return categorized;
@@ -207,16 +181,6 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
                                 continue;
                             }
                             String path = tileEditor.getLoadedSetup().getResourceBasePath() + "/" + relativePath + "/" + category + "/" + fileName + ImageUtils.PNG_FORMAT;
-                            //sanitize the path
-                            path = path.replace("\\", "/");
-                            
-                            System.out.println("DEBUG: Trying to load asset from path: " + path);
-                            
-                            //VISUAL POP-UP
-                            javax.swing.JOptionPane.showMessageDialog(null, 
-                                "DEBUG PATH:\n" + path + "\n\nAbsolute:\n" + new java.io.File(path).getAbsolutePath() + "\n\nExists: " + new java.io.File(path).exists(), 
-                                "Asset Diagnostic", 
-                                javax.swing.JOptionPane.INFORMATION_MESSAGE);
                             
                             autotiles.add(new Autotile(extractedIds.get(0), extractedIds.get(1), 
                             		extractedIds.get(2), file.getName(), image, path));
@@ -252,10 +216,6 @@ public class ResourceLoaderWorker extends SwingWorker<Void, Void> {
                     int id = groupIds.getOrDefault(baseName, -1);
                     
                     String path = tileEditor.getLoadedSetup().getResourceBasePath() + "/" + relativePath + "/" + category + "/" + baseName + ImageUtils.PNG_FORMAT;
-                    //sanitize the path
-                    path = path.replace("\\", "/");
-                    
-                    System.out.println("DEBUG: Trying to load asset from path: " + path);
                     
                     if (frames.size() > 1) {
                         //create the new animated tile class
