@@ -103,8 +103,12 @@ tasks.register('jpackageNative', Exec) {
             into jarFile.parentFile
         }
     }
+	
+	// Dynamically choose the output installer type based on the host OS running the build
+    def os = System.getProperty("os.name").toLowerCase(Locale.ROOT)
+    def packageType = os.contains("mac") ? "dmg" : "app-image"
 
-    commandLine 'jpackage',
+	commandLine 'jpackage',
         '--input', jarFile.parentFile.absolutePath,
         '--main-jar', jarFile.name,
         '--main-class', 'main.TileEditor',
@@ -113,7 +117,7 @@ tasks.register('jpackageNative', Exec) {
         '--vendor', 'Andrei-Voia',
         '--description', 'Tile Map Editor',
         '--dest', outputDir.absolutePath,
-        '--type', 'app-image',
+        '--type', packageType, // Dynamic package type: dmg for Mac, app-image for others
         '--icon', iconPath,
         '--verbose'
         
