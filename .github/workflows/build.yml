@@ -95,7 +95,7 @@ jobs:
       # Compress macOS build (Runs only on macOS runner)
       - name: Archive macOS Portable Bundle
         if: matrix.name == 'macOS'
-        run: zip -r build/jpackage/TileMakerDOT-macOS-x64.zip build/jpackage/TileMakerDOT.app
+        run: ditto -c -k --sequesterRsrc build/jpackage/TileMakerDOT.app build/jpackage/TileMakerDOT-macOS-x64.zip
 
       # Upload the packed archive to the workflow workspace
       - name: Upload Native Portable Archive
