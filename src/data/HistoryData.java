@@ -3,9 +3,11 @@ package data;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import javax.swing.JOptionPane;
+
 public class HistoryData {
 
-	private static final int MAX_UNDO_STATES = 20;
+	private static int MAX_UNDO_STATES = 20;
 	
 	//history undo / redo actions inside tool
 	private Deque<MapData> undoStack = new ArrayDeque<>();
@@ -20,16 +22,44 @@ public class HistoryData {
 	public void saveState() {
 		//clear redo stack on any new action
 		redoStack.clear();
-
-		//deep copy the current state
-		MapData state = new MapData(mapState.getData());
-
-		//if max states are reached then always remove the oldest ones
-		if (undoStack.size() >= MAX_UNDO_STATES) {
-			undoStack.removeLast();
-		}
-
-		undoStack.push(state);
+		
+		try {
+			//deep copy the current state
+			MapData state = new MapData(mapState.getData());
+	
+			//if max states are reached then always remove the oldest ones
+			if (undoStack.size() > 0 && undoStack.size() >= MAX_UNDO_STATES) {
+				undoStack.removeLast();
+			}
+	
+			undoStack.push(state);
+			
+		} catch (OutOfMemoryError e) {
+			//in case the memory ran out very early in the stack then set it to 0 because system is very low on RAM
+			if(undoStack.size() <= 3) {
+				MAX_UNDO_STATES = 0;
+			}
+			//cut the max undo states to half to save memory for the tool
+			else {
+				MAX_UNDO_STATES = (int) (undoStack.size() * 0.5f);
+			}
+			
+	        //clear the rest of the undo history to free up the RAM
+	        undoStack.clear();
+			redoStack.clear();
+			
+	        //force the JVM to run garbage collection
+	        System.gc();
+	        
+	        //inform the user about the RAM usage and how it was solved
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "The system ran out of RAM memory while processing the history action.\n" +
+	            "The Undo/Redo history has been cleared and reduced to " + MAX_UNDO_STATES + " Undo states to prevent a crash. Please save your work.",
+	            "System Memory Warning",
+	            JOptionPane.ERROR_MESSAGE
+	        );
+	    }
 	}
 
 	public void resetSaveState() {
